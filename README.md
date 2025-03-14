@@ -12,7 +12,7 @@ To begin, if you do not have Ruby, Git, MySQL, and Postgres, we suggest
 using this [site](https://gorails.com/setup) to install the software.
 Pick the appropriate operating system and follow the instructions.
 
-After installing the above software, clone this repo:
+After installing the above software, clone this repo: 
 
 ```bash
 $ git clone git@github.com:OWASP/railsgoat.git
