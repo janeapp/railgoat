@@ -3,6 +3,8 @@ class DashboardController < ApplicationController
   skip_before_action :has_info
   layout false, only: [:change_graph]
 
+  ALLOWED_GRAPHS = %w[bar_graph pie_charts].freeze
+
   def home
     @user = current_user
 
@@ -13,8 +15,6 @@ class DashboardController < ApplicationController
   end
 
   def change_graph
-    self.try(params[:graph])
-
     if params[:graph] == "bar_graph"
       render "dashboard/bar_graph"
     else
