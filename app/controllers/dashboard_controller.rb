@@ -13,8 +13,6 @@ class DashboardController < ApplicationController
   end
 
   def change_graph
-    self.try(params[:graph])
-
     if params[:graph] == "bar_graph"
       render "dashboard/bar_graph"
     else
@@ -23,3 +21,5 @@ class DashboardController < ApplicationController
     end
   end
 end
+
+
