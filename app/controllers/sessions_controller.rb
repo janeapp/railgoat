@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 class SessionsController < ApplicationController
   skip_before_action :has_info
@@ -16,6 +17,9 @@ class SessionsController < ApplicationController
 
     if user
       session[:user_id] = user.id if User.where(:id => user.id).exists?
+      if params[:remember_me]
+        cookies.permanent.encrypted[:auth_token] = user.auth_token
+      end
       redirect_to home_dashboard_index_path
     else
       flash[:error] =  "Either your username and password is incorrect" #e.message
@@ -23,22 +27,9 @@ class SessionsController < ApplicationController
     end
   end
 
-  if user
-    if params[:remember_me]
-      cookies.permanent[:auth_token] = user.auth_token
-    else
-      session[:user_id] = user.id
-    end
-    redirect_to path
-  else
-    flash[:error] = e.message
-    render "sessions/new"
+  def destroy
+    cookies.delete(:auth_token)
+    reset_session
+    redirect_to root_path
   end
-end
-
-def destroy
-  cookies.delete(:auth_token)
-  reset_session
-  redirect_to root_path
-end
 end
