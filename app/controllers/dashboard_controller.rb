@@ -13,9 +13,9 @@ class DashboardController < ApplicationController
   end
 
   def change_graph
-    self.try(params[:graph])
+    allowed_graphs = %w[bar_graph pie_charts]
 
-    if params[:graph] == "bar_graph"
+    if params[:graph] == "bar_graph" && allowed_graphs.include?(params[:graph])
       render "dashboard/bar_graph"
     else
       @user = current_user
