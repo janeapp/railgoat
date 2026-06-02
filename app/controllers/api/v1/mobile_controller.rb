@@ -5,16 +5,16 @@ class Api::V1::MobileController < ApplicationController
 
   respond_to :json
 
+  ALLOWED_MODELS = %w[User Post Comment].freeze
+
   def show
-    if params[:class]
-      model = params[:class].classify.constantize
+    if (model = allowed_model(params[:class]))
       respond_with model.find(params[:id]).to_json
     end
   end
 
   def index
-    if params[:class]
-      model = params[:class].classify.constantize
+    if (model = allowed_model(params[:class]))
       respond_with model.all.to_json
     else
       respond_with nil.to_json
@@ -22,6 +22,11 @@ class Api::V1::MobileController < ApplicationController
   end
 
   private
+
+  def allowed_model(name)
+    class_name = name.to_s.classify
+    ALLOWED_MODELS.include?(class_name) ? class_name.constantize : nil
+  end
 
   def mobile_request?
     if session[:mobile_param]
